@@ -92,8 +92,15 @@ dependencies {
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
 
-    // Kotlin Serialization 
+    // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
+    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
 
 kapt {
