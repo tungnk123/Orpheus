@@ -7,21 +7,22 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.tungnk123.orpheus.MainActivity
 
 class PermissionHandler {
-    data class State(
-        val required: List<String>,
-        val granted: List<String>,
-        val denied: List<String>,
+    data class PermissionState(
+        val requiredPermissions: List<String>,
+        val grantedPermissions: List<String>,
+        val deniedPermissions: List<String>,
     ) {
-        fun hasAll() = denied.isEmpty()
+        fun hasAllPermissions() = deniedPermissions.isEmpty()
     }
 
     fun handle(activity: MainActivity) {
-        val state = getState(activity)
-        if (state.hasAll()) {
+        val permissionState = getPermissionState(activity)
+        if (permissionState.hasAllPermissions()) {
             return
         }
         val contract = ActivityResultContracts.RequestMultiplePermissions()
-        activity.registerForActivityResult(contract) {}.launch(state.denied.toTypedArray())
+        activity.registerForActivityResult(contract) {}
+            .launch(permissionState.deniedPermissions.toTypedArray())
     }
 
     private fun getRequiredPermissions(): List<String> {
@@ -32,17 +33,21 @@ class PermissionHandler {
         return required
     }
 
-    private fun getState(activity: MainActivity): State {
-        val required = getRequiredPermissions()
-        val granted = mutableListOf<String>()
-        val denied = mutableListOf<String>()
-        required.forEach {
+    private fun getPermissionState(activity: MainActivity): PermissionState {
+        val requiredPermissions = getRequiredPermissions()
+        val grantedPermissions = mutableListOf<String>()
+        val deniedPermissions = mutableListOf<String>()
+        requiredPermissions.forEach {
             if (activity.checkSelfPermission(it) == PackageManager.PERMISSION_GRANTED) {
-                granted.add(it)
+                grantedPermissions.add(it)
             } else {
-                denied.add(it)
+                deniedPermissions.add(it)
             }
         }
-        return State(required = required, granted = granted, denied = denied)
+        return PermissionState(
+            requiredPermissions = requiredPermissions,
+            grantedPermissions = grantedPermissions,
+            deniedPermissions = deniedPermissions
+        )
     }
 }
