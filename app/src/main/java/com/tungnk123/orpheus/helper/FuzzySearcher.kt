@@ -7,47 +7,33 @@ class FuzzySearcher<T>(private val options: List<FuzzySearchOption<T>>) {
     fun search(
         terms: String,
         entities: List<T>,
-        maxLength: Int? = null,
-    ): List<FuzzyResultEntity<T>> {
-        return entities.map { compare(terms, it) }
+        maxLength: Int? = null
+    ): List<FuzzyResultEntity<T>> =
+        entities.map { compare(terms, it) }
             .sortedByDescending { it.score }
-            .let { results -> maxLength?.let { results.subListNonStrict(maxLength) } ?: results }
-    }
+            .let { if (maxLength != null) it.subListNonStrict(maxLength) else it }
 
-    private fun compare(terms: String, entity: T): FuzzyResultEntity<T> {
-        val comparator by lazy { FuzzySearchComparator(terms) }
-        val score = options.mapNotNull { it.match(comparator, entity)?.let { s -> s * it.weight } }
-            .maxOrNull() ?: 0
-
-        return FuzzyResultEntity(score, entity)
-    }
+    private fun compare(terms: String, entity: T) = FuzzyResultEntity(
+        options.maxOfOrNull {
+            it.match(FuzzySearchComparator(terms), entity)?.times(it.weight) ?: 0
+        } ?: 0,
+        entity
+    )
 }
 
 object FuzzySearchHelper {
-    fun compare(input: String, against: String): Int =
-        FuzzySearch.tokenSetPartialRatio(normalizeTerms(input), normalizeTerms(against))
+    fun compare(input: String, against: String) =
+        FuzzySearch.tokenSetPartialRatio(input.normalize(), against.normalize())
 
     private val symbolsRegex = Regex("""[~${'$'}&+,:;=?@#|'"<>.^*()\[\]%!\-_/\\]+""")
-    private val whitespaceRegex = Regex("""\s+""")
-
-    private fun normalizeTerms(terms: String): String = terms.lowercase()
-        .replace(symbolsRegex, "")
-        .replace(whitespaceRegex, " ")
+    private fun String.normalize() =
+        lowercase().replace(symbolsRegex, "").replace("\\s+".toRegex(), " ")
 }
 
 class FuzzySearchComparator(private val input: String) {
-    fun compareString(value: String): Int = FuzzySearchHelper.compare(input, value)
-
-    fun compareCollection(values: Collection<String>): Int? =
-        values.maxOfOrNull { compareString(it) }
+    fun compareString(value: String) = FuzzySearchHelper.compare(input, value)
+    fun compareCollection(values: Collection<String>) = values.maxOfOrNull { compareString(it) }
 }
 
-data class FuzzySearchOption<T>(
-    val match: FuzzySearchComparator.(T) -> Int?,
-    val weight: Int = 1,
-)
-
-data class FuzzyResultEntity<T>(
-    val score: Int,
-    val entity: T,
-)
+data class FuzzySearchOption<T>(val match: FuzzySearchComparator.(T) -> Int?, val weight: Int = 1)
+data class FuzzyResultEntity<T>(val score: Int, val entity: T)
