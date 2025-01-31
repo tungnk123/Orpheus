@@ -2,7 +2,7 @@
 accompanistPermissions = "0.34.0"
 agp = "8.8.0"
 coilCompose = "3.0.4"
-fuzzywuzzyKotlin = "0.1.1"
+fuzzywuzzyKotlin = "0.9.0"
 hiltAndroidCompiler = "2.51.1"
 hiltAndroid = "2.54"
 kotlin = "2.0.0"
