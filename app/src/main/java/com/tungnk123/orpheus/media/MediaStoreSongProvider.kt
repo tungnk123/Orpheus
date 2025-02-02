@@ -2,7 +2,6 @@ package com.tungnk123.orpheus.media
 
 import android.content.Context
 import android.database.Cursor
-import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -10,8 +9,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import com.tungnk123.orpheus.data.model.MetadataInfo
 import com.tungnk123.orpheus.data.model.Song
+import com.tungnk123.orpheus.helper.MediaMetadataHelper
 import com.tungnk123.orpheus.utils.extensions.toLocalDate
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -46,7 +45,7 @@ class MediaStoreSongProvider @Inject constructor(@ApplicationContext private val
         context.contentResolver.query(uri, projection, selection, null, sortOrder)?.use { cursor ->
             while (cursor.moveToNext()) {
                 val song = getSongFromCursor(cursor)
-                val metadata = getMetadataFromFile(song.path)
+                val metadata = MediaMetadataHelper.getMetadataFromFile(song.path)
                 songs.add(
                     song.copy(
                         bitrate = metadata.bitrate,
@@ -103,47 +102,5 @@ class MediaStoreSongProvider @Inject constructor(@ApplicationContext private val
             uri = uri,
             path = path
         )
-    }
-
-    @RequiresApi(Build.VERSION_CODES.S)
-    private fun getMetadataFromFile(filePath: String): MetadataInfo {
-        val retriever = MediaMetadataRetriever()
-        return try {
-            retriever.setDataSource(filePath)
-            MetadataInfo(
-                bitrate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
-                    ?.toLongOrNull(),
-                samplingRate = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_SAMPLERATE)
-                    ?.toLongOrNull(),
-                channels = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_NUM_TRACKS)
-                    ?.toIntOrNull(),
-                discNumber = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DISC_NUMBER)
-                    ?.toIntOrNull(),
-                discTotal = null,
-                encoder = null,
-                coverFile = extractCoverFile(retriever)
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-            MetadataInfo()
-        } finally {
-            retriever.release()
-        }
-    }
-
-    private fun extractCoverFile(retriever: MediaMetadataRetriever): String? {
-        return try {
-            val picture = retriever.embeddedPicture
-            if (picture != null) "data:image/jpeg;base64,${
-                android.util.Base64.encodeToString(
-                    picture,
-                    android.util.Base64.DEFAULT
-                )
-            }"
-            else null
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
     }
 }
