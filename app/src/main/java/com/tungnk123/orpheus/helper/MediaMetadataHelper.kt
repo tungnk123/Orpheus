@@ -2,6 +2,7 @@ package com.tungnk123.orpheus.helper
 
 import android.media.MediaMetadataRetriever
 import android.os.Build
+import android.util.LruCache
 import androidx.annotation.RequiresApi
 import com.tungnk123.orpheus.data.model.MetadataInfo
 import java.io.File
@@ -10,8 +11,11 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 object MediaMetadataHelper {
+    private val metadataCache = LruCache<String, MetadataInfo>(100)
+
     @RequiresApi(Build.VERSION_CODES.S)
     fun getMetadataFromFile(filePath: String): MetadataInfo {
+        metadataCache.get(filePath)?.let { return it }
         val retriever = MediaMetadataRetriever()
         return try {
             retriever.setDataSource(filePath)
@@ -41,7 +45,9 @@ object MediaMetadataHelper {
                     ?.toIntOrNull(),
                 encoder = null,
                 coverFile = extractCoverFile(retriever)
-            )
+            ).also { metadata ->
+                metadataCache.put(filePath, metadata)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             MetadataInfo()
