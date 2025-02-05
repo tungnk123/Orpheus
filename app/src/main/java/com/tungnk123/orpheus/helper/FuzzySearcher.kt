@@ -8,10 +8,11 @@ class FuzzySearcher<T>(private val options: List<FuzzySearchOption<T>>) {
         terms: String,
         entities: List<T>,
         maxLength: Int? = null
-    ): List<FuzzyResultEntity<T>> =
+    ): List<T> =
         entities.map { compare(terms, it) }
             .sortedByDescending { it.score }
             .let { if (maxLength != null) it.subListNonStrict(maxLength) else it }
+            .map { it.entity }
 
     private fun compare(terms: String, entity: T) = FuzzyResultEntity(
         options.maxOfOrNull {

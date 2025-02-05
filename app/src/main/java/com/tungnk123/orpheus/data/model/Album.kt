@@ -9,7 +9,6 @@ import kotlin.time.Duration
 data class Album(
     val id: String = "",
     val name: String = "",
-    val description: String = "",
     val artists: MutableSet<String> = mutableSetOf(),
     var startYear: Int? = null,
     var endYear: Int? = null,

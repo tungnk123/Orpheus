@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 @Entity("Artists")
 data class Artist(
     val name: String = "",
-    val description: String = "",
     var numberOfAlbums: Int = 0,
     var numberOfSongs: Int = 0,
 )

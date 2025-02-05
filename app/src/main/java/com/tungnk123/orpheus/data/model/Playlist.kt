@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 data class Playlist(
     @PrimaryKey val id: String = "",
     val title: String = "",
-    val description: String = "",
     val songPaths: List<String> = emptyList(),
     val uri: Uri? = null,
     val path: String? = null
