@@ -2,6 +2,7 @@ package com.tungnk123.orpheus.helper
 
 import android.media.MediaMetadataRetriever
 import android.os.Build
+import android.util.Log
 import android.util.LruCache
 import androidx.annotation.RequiresApi
 import com.tungnk123.orpheus.data.model.MetadataInfo
@@ -14,7 +15,7 @@ object MediaMetadataHelper {
     private val metadataCache = LruCache<String, MetadataInfo>(100)
 
     @RequiresApi(Build.VERSION_CODES.S)
-    fun getMetadataFromFile(filePath: String): MetadataInfo {
+    suspend fun getMetadataFromFile(filePath: String): MetadataInfo {
         metadataCache.get(filePath)?.let { return it }
         val retriever = MediaMetadataRetriever()
         return try {
@@ -49,7 +50,7 @@ object MediaMetadataHelper {
                 metadataCache.put(filePath, metadata)
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("MediaMetadataHelper", "Failed to take URI permission", e)
             MetadataInfo()
         } finally {
             retriever.release()

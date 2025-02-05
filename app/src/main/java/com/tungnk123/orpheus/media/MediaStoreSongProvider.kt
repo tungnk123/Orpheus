@@ -13,8 +13,10 @@ import com.tungnk123.orpheus.data.model.Song
 import com.tungnk123.orpheus.helper.MediaMetadataHelper
 import com.tungnk123.orpheus.utils.extensions.toLocalDate
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,7 +49,9 @@ class MediaStoreSongProvider @Inject constructor(@ApplicationContext private val
         context.contentResolver.query(uri, projection, selection, null, sortOrder)?.use { cursor ->
             while (cursor.moveToNext()) {
                 val song = getSongFromCursor(cursor)
-                val metadata = MediaMetadataHelper.getMetadataFromFile(song.path)
+                val metadata = withContext(Dispatchers.IO) {
+                    MediaMetadataHelper.getMetadataFromFile(song.path)
+                }
                 songs.add(
                     song.copy(
                         bitrate = metadata.bitrate,

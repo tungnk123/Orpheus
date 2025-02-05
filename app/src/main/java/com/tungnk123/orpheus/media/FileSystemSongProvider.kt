@@ -73,21 +73,22 @@ class FileSystemSongProvider @Inject constructor(@ApplicationContext private val
         try {
             Log.d(TAG, "Scanning media tree: $path")
             coroutineScope {
-                file.list().map {
-                    val childPath = path.join(it.name)
-                    async {
+                val jobs = file.list().map { childFile ->
+                    async(Dispatchers.IO) {
+                        val childPath = path.join(childFile.name)
                         when {
-                            it.isDirectory -> {
+                            childFile.isDirectory -> {
                                 Log.d(TAG, "Found folder: $childPath - Scanning recursively...")
-                                scanMediaTree(childPath, it)
+                                scanMediaTree(childPath, childFile)
                             }
                             else -> {
                                 Log.d(TAG, "Found file: $childPath - Processing...")
-                                scanMediaFile(childPath, it)
+                                scanMediaFile(childPath, childFile)
                             }
                         }
                     }
-                }.awaitAll()
+                }
+                jobs.awaitAll()
             }
         } catch (err: Exception) {
             Log.e(TAG, "Error scanning media tree at $path", err)
@@ -124,7 +125,9 @@ class FileSystemSongProvider @Inject constructor(@ApplicationContext private val
 
         Log.d(TAG, "Extracting metadata for: $pathString")
 
-        val metadata = MediaMetadataHelper.getMetadataFromFile(file.uri.toString())
+        val metadata = withContext(Dispatchers.IO) {
+            MediaMetadataHelper.getMetadataFromFile(file.uri.toString())
+        }
         Log.d(TAG, "Metadata extracted: $metadata")
 
         val song = Song(
