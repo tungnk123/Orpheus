@@ -13,6 +13,8 @@ import com.tungnk123.orpheus.data.model.Song
 import com.tungnk123.orpheus.helper.MediaMetadataHelper
 import com.tungnk123.orpheus.utils.extensions.toLocalDate
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +22,7 @@ import javax.inject.Singleton
 class MediaStoreSongProvider @Inject constructor(@ApplicationContext private val context: Context) {
 
     @RequiresApi(Build.VERSION_CODES.S)
-    fun getAllSongs(): List<Song> {
+    fun getAllSongs(): Flow<List<Song>> = flow {
         val songs = mutableListOf<Song>()
         val uri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
@@ -59,8 +61,7 @@ class MediaStoreSongProvider @Inject constructor(@ApplicationContext private val
                 )
             }
         }
-
-        return songs
+        emit(songs.toList())
     }
 
     private fun getSongFromCursor(cursor: Cursor): Song {

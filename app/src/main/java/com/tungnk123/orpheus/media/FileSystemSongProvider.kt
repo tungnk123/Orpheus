@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -55,8 +56,8 @@ class FileSystemSongProvider @Inject constructor(@ApplicationContext private val
                     }
                 }
             }
-        } catch (err: Exception) {
-            Log.e(TAG, "Error during fetch()", err)
+        } catch (ioErr: IOException) {
+            Log.e(TAG, "Error during fetch()", ioErr)
         }
         emitUpdate(false)
     }
