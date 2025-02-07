@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Orpheus</string>
+    <string name="for_you">Albums</string>
+    <string name="songs">Songs</string>
+    <string name="artists">Artists</string>
+    <string name="albums">Albums</string>
+    <string name="album_artists">Album Artists</string>
+    <string name="genres">Genres</string>
+    <string name="playlists">Playlists</string>
+    <string name="browser">Browser</string>
+    <string name="folders">Folders</string>
 </resources>
