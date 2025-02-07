@@ -6,13 +6,15 @@ import android.util.Log
 import android.util.LruCache
 import androidx.annotation.RequiresApi
 import com.tungnk123.orpheus.data.model.MetadataInfo
+import com.tungnk123.orpheus.utils.AppConstants.CACHE_SIZE_CONFIG
 import java.io.File
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
 object MediaMetadataHelper {
-    private val metadataCache = LruCache<String, MetadataInfo>(100)
+
+    private val metadataCache = LruCache<String, MetadataInfo>(CACHE_SIZE_CONFIG)
 
     @RequiresApi(Build.VERSION_CODES.S)
     suspend fun getMetadataFromFile(filePath: String): MetadataInfo {
