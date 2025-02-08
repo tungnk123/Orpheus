@@ -25,51 +25,61 @@ import com.tungnk123.orpheus.R
 enum class NavigationBarItem(
     val labelResId: Int,
     val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector
+    val unselectedIcon: ImageVector,
+    val route: NavigationRoute
 ) {
     ForYou(
         labelResId = R.string.for_you,
         selectedIcon = Icons.Filled.Face,
-        unselectedIcon = Icons.Outlined.Face
+        unselectedIcon = Icons.Outlined.Face,
+        route = NavigationRoute.ForYou
     ),
     Songs(
         labelResId = R.string.songs,
         selectedIcon = Icons.Filled.MusicNote,
-        unselectedIcon = Icons.Outlined.MusicNote
+        unselectedIcon = Icons.Outlined.MusicNote,
+        route = NavigationRoute.Songs
     ),
     Artists(
         labelResId = R.string.artists,
         selectedIcon = Icons.Filled.Group,
-        unselectedIcon = Icons.Outlined.Group
+        unselectedIcon = Icons.Outlined.Group,
+        route = NavigationRoute.Artists
     ),
     Albums(
         labelResId = R.string.albums,
         selectedIcon = Icons.Filled.Album,
-        unselectedIcon = Icons.Outlined.Album
+        unselectedIcon = Icons.Outlined.Album,
+        route = NavigationRoute.Albums
     ),
     AlbumArtists(
         labelResId = R.string.album_artists,
         selectedIcon = Icons.Filled.SupervisorAccount,
-        unselectedIcon = Icons.Outlined.SupervisorAccount
+        unselectedIcon = Icons.Outlined.SupervisorAccount,
+        route = NavigationRoute.AlbumArtists
     ),
     Genres(
         labelResId = R.string.genres,
         selectedIcon = Icons.Filled.Tune,
-        unselectedIcon = Icons.Outlined.Tune
+        unselectedIcon = Icons.Outlined.Tune,
+        route = NavigationRoute.Genres
     ),
     Playlists(
         labelResId = R.string.playlists,
         selectedIcon = Icons.Filled.AccountTree,
-        unselectedIcon = Icons.Outlined.AccountTree
+        unselectedIcon = Icons.Outlined.AccountTree,
+        route = NavigationRoute.Playlists
     ),
     Browser(
         labelResId = R.string.browser,
         selectedIcon = Icons.Filled.Folder,
-        unselectedIcon = Icons.Outlined.Folder
+        unselectedIcon = Icons.Outlined.Folder,
+        route = NavigationRoute.Browser
     ),
     Folders(
         labelResId = R.string.folders,
         selectedIcon = Icons.Filled.FolderOpen,
-        unselectedIcon = Icons.Outlined.FolderOpen
+        unselectedIcon = Icons.Outlined.FolderOpen,
+        route = NavigationRoute.Folders
     )
 }
