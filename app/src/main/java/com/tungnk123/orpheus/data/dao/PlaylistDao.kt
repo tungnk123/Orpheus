@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.tungnk123.orpheus.data.model.Playlist
+import com.tungnk123.orpheus.data.model.Song
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,7 +19,7 @@ interface PlaylistDao {
     suspend fun update(vararg playlist: Playlist): Int
 
     @Query("SELECT * FROM Playlists")
-    suspend fun observePlaylists(): Flow<List<Playlist>>
+    fun observePlaylists(): Flow<List<Playlist>>
 
     @Query("SELECT * FROM Playlists")
     suspend fun getPlaylists(): List<Playlist>
@@ -30,8 +31,8 @@ interface PlaylistDao {
     suspend fun deleteById(playlistId: String): Int
 
     @Query("SELECT * FROM Playlists")
-    suspend fun getEntriesPlaylistIDMapped(): Map<@MapColumn("id") String, Playlist>
+    suspend fun getEntriesPlaylistIDMapped(): List<Playlist>
 
     @Query("SELECT * FROM Playlists")
-    fun observeEntriesPlaylistIDMapped(): Flow<Map<@MapColumn("id") String, Playlist>>
+    fun observeEntriesPlaylistIDMapped(): Flow<List<Playlist>>
 }
