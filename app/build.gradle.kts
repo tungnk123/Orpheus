@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -68,7 +68,7 @@ dependencies {
 
     // Dagger Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // Accompanist
     implementation(libs.accompanist.permissions)
@@ -96,18 +96,14 @@ dependencies {
 
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
-    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
+    implementation(libs.converter.kotlinx.serialization)
 
     // Room
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
-    kapt(libs.androidx.room.compiler)
+    ksp("androidx.room:room-compiler:2.5.0")
     implementation(libs.androidx.room.ktx)
 
     // Fuzzy Search
     implementation(libs.fuzzywuzzy)
-}
-
-kapt {
-    correctErrorTypes = true
 }
