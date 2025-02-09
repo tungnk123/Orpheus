@@ -69,6 +69,7 @@ dependencies {
     // Dagger Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Accompanist
     implementation(libs.accompanist.permissions)
@@ -103,6 +104,9 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp("androidx.room:room-compiler:2.5.0")
     implementation(libs.androidx.room.ktx)
+
+    // Data Store
+    implementation(libs.androidx.datastore.preferences)
 
     // Fuzzy Search
     implementation(libs.fuzzywuzzy)
