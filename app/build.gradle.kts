@@ -5,6 +5,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -68,7 +69,7 @@ dependencies {
 
     // Dagger Hilt
     implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     // Accompanist
@@ -101,8 +102,7 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    ksp("androidx.room:room-compiler:2.5.0")
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
     // Data Store
@@ -110,4 +110,9 @@ dependencies {
 
     // Fuzzy Search
     implementation(libs.fuzzywuzzy)
+}
+
+kapt {
+    correctErrorTypes = true
+    useBuildCache = false
 }
