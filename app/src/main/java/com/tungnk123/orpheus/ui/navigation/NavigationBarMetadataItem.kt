@@ -22,7 +22,7 @@ import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.tungnk123.orpheus.R
 
-enum class NavigationBarItem(
+enum class NavigationBarMetadataItem(
     val labelResId: Int,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,

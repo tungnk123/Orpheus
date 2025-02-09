@@ -1,6 +1,6 @@
 package com.tungnk123.orpheus.ui.navigation
 
-sealed class NavigationRoute(val route: String) {
+sealed class NavigationRoute(val name: String) {
     data object ForYou : NavigationRoute("for_you")
     data object Songs : NavigationRoute("songs")
     data object Artists : NavigationRoute("artists")

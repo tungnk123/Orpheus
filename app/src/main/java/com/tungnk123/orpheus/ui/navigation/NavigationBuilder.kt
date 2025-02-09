@@ -10,11 +10,12 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.serializer
 
-inline fun <reified T : NavigationRoute> NavGraphBuilder.baseComposable(
-    noinline content: @Composable (AnimatedContentScope.(NavBackStackEntry) -> Unit),
+fun NavGraphBuilder.baseComposable(
+    item: NavigationBarMetadataItem,
+    content: @Composable (AnimatedContentScope.(NavBackStackEntry) -> Unit),
 ) {
     composable(
-        route = T::class.simpleName ?: error("Unknown route"),
+        route = item.route.name,
 //        popEnterTransition = {
 //            when {
 //                isInitialRoute<NavigationRoute.SearchView>() -> ScaleTransition.scaleUp.enterTransition()
@@ -51,8 +52,8 @@ inline fun <reified T : NavigationRoute> NavGraphBuilder.baseComposable(
 //                else -> SlideTransition.slideLeft.exitTransition()
 //            }
 //        }
-    ) {
-        content(it)
+    ) { backStackEntry ->
+        content(backStackEntry)
     }
 }
 
