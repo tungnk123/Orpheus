@@ -3,6 +3,7 @@ accompanistPermissions = "0.37.0"
 agp = "8.8.0"
 coilCompose = "3.0.4"
 converterKotlinxSerialization = "2.11.0"
+datastorePreferences = "1.1.2"
 hiltAndroidCompiler = "2.51.1"
 hiltAndroid = "2.55"
 kotlin = "2.0.0"
@@ -26,10 +27,14 @@ roomRuntime = "2.6.1"
 fuzzywuzzy = "1.4.0"
 compose-material = "1.7.5"
 annotation = "1.9.1"
+androidx-hilt = "1.2.0"
+datastorePreferencesCoreJvm = "1.1.2"
+datastoreCoreAndroid = "1.1.2"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-runtime-ktx-v287 = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxVersion" }
@@ -65,6 +70,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRunt
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 fuzzywuzzy = { group = "me.xdrop", name = "fuzzywuzzy", version.ref = "fuzzywuzzy" }
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
