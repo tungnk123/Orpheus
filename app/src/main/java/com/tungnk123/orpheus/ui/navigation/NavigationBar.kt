@@ -19,8 +19,9 @@ import com.tungnk123.orpheus.utils.extensions.swipeable
 
 @Composable
 fun BottomNavigationBar(
-    currentTab: NavigationRoute,
-    onTabSelected: (NavigationRoute) -> Unit,
+    currentTab: NavigationBarMetadataItem,
+    tabItemsList: List<NavigationBarMetadataItem>,
+    onTabSelected: (NavigationBarMetadataItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
@@ -36,8 +37,8 @@ fun BottomNavigationBar(
     ) {
         Spacer(modifier = Modifier.width(2.dp))
 
-        NavigationBarMetadataItem.entries.forEach { tab ->
-            val isSelected = currentTab == tab.route
+        tabItemsList.forEach { tab ->
+            val isSelected = currentTab.route == tab.route
 
             NavigationBarItem(
                 selected = isSelected,
@@ -49,7 +50,7 @@ fun BottomNavigationBar(
                     ) {
                         Icon(
                             imageVector = if (it) tab.selectedIcon else tab.unselectedIcon,
-                            contentDescription = tab.route.name
+                            contentDescription = tab.route.route
                         )
                     }
                 },
@@ -63,7 +64,7 @@ fun BottomNavigationBar(
                     )
                 },
                 onClick = {
-                    onTabSelected(tab.route)
+                    onTabSelected(tab)
                 }
             )
         }
