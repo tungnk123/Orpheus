@@ -6,19 +6,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.tungnk123.orpheus.ui.navigation.AppNavHost
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.tungnk123.orpheus.ui.navigation.BottomNavigationBar
-import com.tungnk123.orpheus.ui.navigation.NavigationBarMetadataItem
 
 @Composable
 fun OrpheusApp(
     modifier: Modifier = Modifier,
-//    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: MainViewModel = hiltViewModel(),
 ) {
     val navController = rememberNavController()
+    val currentTab by viewModel.currentTab.collectAsStateWithLifecycle()
+
     Scaffold(
         modifier = modifier
             .fillMaxSize()
@@ -26,13 +29,23 @@ fun OrpheusApp(
         topBar = {},
         bottomBar = {
             BottomNavigationBar(
-                currentTab = NavigationBarMetadataItem.ForYou.route,
-                onTabSelected = {}
+                currentTab = currentTab,
+                onTabSelected = {
+                    viewModel.updateCurrentTab(it)
+                    navController.navigate(it.route.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                tabItemsList = viewModel.homeTabs
             )
         }
     ) { contentPaddings ->
         AppNavHost(
-            navController,
+            navController = navController,
             modifier = Modifier.padding(contentPaddings)
         )
     }

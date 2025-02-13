@@ -15,7 +15,7 @@ fun NavGraphBuilder.baseComposable(
     content: @Composable (AnimatedContentScope.(NavBackStackEntry) -> Unit),
 ) {
     composable(
-        route = item.route.name,
+        route = item.route.route,
 //        popEnterTransition = {
 //            when {
 //                isInitialRoute<NavigationRoute.SearchView>() -> ScaleTransition.scaleUp.enterTransition()

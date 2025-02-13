@@ -1,15 +1,15 @@
 package com.tungnk123.orpheus.ui.navigation
 
-sealed class NavigationRoute(val name: String) {
-    data object ForYou : NavigationRoute("for_you")
-    data object Songs : NavigationRoute("songs")
-    data object Artists : NavigationRoute("artists")
-    data object Albums : NavigationRoute("albums")
-    data object AlbumArtists : NavigationRoute("album_artists")
-    data object Genres : NavigationRoute("genres")
-    data object Playlists : NavigationRoute("playlists")
-    data object Browser : NavigationRoute("browser")
-    data object Folders : NavigationRoute("folders")
+sealed class NavigationRoute(val route: String, val name: String = "") {
+    data object ForYou : NavigationRoute("for_you", "For You")
+    data object Songs : NavigationRoute("songs", "Songs")
+    data object Artists : NavigationRoute("artists", "Artists")
+    data object Albums : NavigationRoute("albums", "Albums")
+    data object AlbumArtists : NavigationRoute("album_artists", "Album Artists")
+    data object Genres : NavigationRoute("genres", "Genres")
+    data object Playlists : NavigationRoute("playlists", "Playlists")
+    data object Browser : NavigationRoute("browser", "Browser")
+    data object Folders : NavigationRoute("folders", "Folders")
 
     data class AlbumDetails(val albumId: String) : NavigationRoute("album_details/$albumId") {
         companion object {
