@@ -1,6 +1,7 @@
 package com.tungnk123.orpheus.ui.theme
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +11,20 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+
+enum class ThemeMode {
+    SYSTEM,
+    SYSTEM_BLACK,
+    LIGHT,
+    DARK,
+    BLACK,
+}
+
+enum class ColorSchemeMode {
+    LIGHT,
+    DARK,
+    BLACK
+}
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -56,3 +71,20 @@ fun OrpheusTheme(
         content = content
     )
 }
+
+//fun ThemeMode.toColorSchemeMode(symphony: Symphony): ColorSchemeMode {
+//    val isSystemInDarkTheme = symphony.applicationContext.resources.configuration.uiMode.let {
+//        (it and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+//    }
+//    return toColorSchemeMode(isSystemInDarkTheme)
+//}
+
+fun ThemeMode.toColorSchemeMode(isSystemInDarkTheme: Boolean) = when (this) {
+    ThemeMode.SYSTEM -> if (isSystemInDarkTheme) ColorSchemeMode.DARK else ColorSchemeMode.LIGHT
+    ThemeMode.SYSTEM_BLACK -> if (isSystemInDarkTheme) ColorSchemeMode.BLACK else ColorSchemeMode.LIGHT
+    ThemeMode.LIGHT -> ColorSchemeMode.LIGHT
+    ThemeMode.DARK -> ColorSchemeMode.DARK
+    ThemeMode.BLACK -> ColorSchemeMode.BLACK
+}
+
+fun ColorSchemeMode.isLight() = this == ColorSchemeMode.LIGHT

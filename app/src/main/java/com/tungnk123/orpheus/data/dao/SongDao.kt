@@ -36,8 +36,8 @@ interface SongDao {
     suspend fun clearAllSongs(): Int
 
     @Query("SELECT * FROM songs")
-    suspend fun getEntriesPathMapped(): Map<@MapColumn("path") String, Song>
+    suspend fun getEntriesPathMapped(): List<Song>
 
     @Query("SELECT * FROM songs")
-    fun observeEntriesPathMapped(): Flow<Map<@MapColumn("path") String, Song>>
+    fun observeEntriesPathMapped(): Flow<List<Song>>
 }

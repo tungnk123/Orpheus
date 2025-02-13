@@ -17,3 +17,14 @@ fun String.printLog(tag: String = "Orpheus_Log", logLevel: LogLevel = LogLevel.D
         LogLevel.ERROR -> Log.e(tag, this)
     }
 }
+
+inline fun <reified T : Enum<T>> String?.toEnum(defaultValue: T): T =
+    if (this == null) {
+        defaultValue
+    } else {
+        try {
+            enumValueOf(this)
+        } catch (e: IllegalArgumentException) {
+            defaultValue
+        }
+    }
