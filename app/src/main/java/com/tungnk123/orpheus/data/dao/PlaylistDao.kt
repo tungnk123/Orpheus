@@ -2,12 +2,10 @@ package com.tungnk123.orpheus.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.MapColumn
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.tungnk123.orpheus.data.model.Playlist
-import com.tungnk123.orpheus.data.model.Song
 import kotlinx.coroutines.flow.Flow
 
 @Dao

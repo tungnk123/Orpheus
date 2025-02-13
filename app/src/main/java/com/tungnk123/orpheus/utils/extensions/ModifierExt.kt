@@ -15,6 +15,7 @@ fun Modifier.swipeable(
 ) = pointerInput(Unit) {
     var offset = Offset.Zero
     detectDragGestures(
+        onDragStart = { offset = Offset.Zero },
         onDrag = { pointer, dragAmount ->
             pointer.consume()
             offset += dragAmount

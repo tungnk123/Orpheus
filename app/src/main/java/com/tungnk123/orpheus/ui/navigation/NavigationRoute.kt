@@ -14,7 +14,15 @@ sealed class NavigationRoute(val route: String, val name: String = "") {
     data class AlbumDetails(val albumId: String) : NavigationRoute("album_details/$albumId") {
         companion object {
             const val baseRoute = "album_details"
+            private const val ARG_ALBUM_ID = "albumId"
+
             fun createRoute(albumId: String) = "$baseRoute/$albumId"
+
+            fun fromRoute(route: String): AlbumDetails? {
+                return route.takeIf { it.startsWith(baseRoute) }
+                    ?.substringAfterLast("/")
+                    ?.let { AlbumDetails(it) }
+            }
         }
     }
 }

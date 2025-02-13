@@ -4,8 +4,6 @@ import android.net.Uri
 import androidx.room.TypeConverter
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
 
 class RoomConverter {
     @TypeConverter
