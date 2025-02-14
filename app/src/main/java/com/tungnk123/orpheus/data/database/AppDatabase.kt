@@ -7,13 +7,12 @@ import com.tungnk123.orpheus.data.dao.PlaylistDao
 import com.tungnk123.orpheus.data.dao.SongDao
 import com.tungnk123.orpheus.data.model.Album
 import com.tungnk123.orpheus.data.model.Artist
-import com.tungnk123.orpheus.data.model.Genre
 import com.tungnk123.orpheus.data.model.Playlist
 import com.tungnk123.orpheus.data.model.Song
-import com.tungnk123.orpheus.utils.RoomConverter
+import com.tungnk123.orpheus.data.converter.RoomConverter
 
 @Database(
-    entities = [Album::class, Artist::class, Song::class, Playlist::class, Genre::class],
+    entities = [Album::class, Artist::class, Song::class, Playlist::class],
     version = 1,
     exportSchema = true
 )

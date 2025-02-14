@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Orpheus"
 include(":app")
- 
+include(":material-color-utilities")
