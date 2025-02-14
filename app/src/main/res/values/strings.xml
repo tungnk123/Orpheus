@@ -9,4 +9,14 @@
     <string name="playlists">Playlists</string>
     <string name="browser">Browser</string>
     <string name="folders">Folders</string>
+    <string name="favorite">Favorite</string>
+    <string name="remove_favorite">Remove favorite</string>
+    <string name="play_next">Play Next</string>
+    <string name="view_artist">View artist: %1$s</string>
+    <string name="view_album_artist">View album artist:: %1$s</string>
+    <string name="view_album">View album: %1$s</string>
+    <string name="add_to_queue">Add to Queue</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="share_song">Share song</string>
+    <string name="view_details">View details</string>
 </resources>
