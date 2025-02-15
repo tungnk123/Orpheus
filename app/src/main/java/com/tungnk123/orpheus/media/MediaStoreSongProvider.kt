@@ -11,6 +11,7 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.tungnk123.orpheus.data.model.Song
 import com.tungnk123.orpheus.helper.MediaMetadataHelper
+import com.tungnk123.orpheus.utils.extensions.printLog
 import com.tungnk123.orpheus.utils.extensions.toLocalDate
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -65,6 +66,7 @@ class MediaStoreSongProvider @Inject constructor(@ApplicationContext private val
                 )
             }
         }
+        "Songs from provider: $songs".printLog("test")
         emit(songs.toList())
     }
 
