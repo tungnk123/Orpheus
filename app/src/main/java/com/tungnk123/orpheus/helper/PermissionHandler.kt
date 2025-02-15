@@ -5,8 +5,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import com.tungnk123.orpheus.MainActivity
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PermissionHandler {
+@Singleton
+class PermissionHandler @Inject constructor() {
     data class PermissionState(
         val requiredPermissions: List<String>,
         val grantedPermissions: List<String>,
@@ -27,11 +30,19 @@ class PermissionHandler {
 
     private fun getRequiredPermissions(): List<String> {
         val required = mutableListOf<String>()
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             required.add(Manifest.permission.POST_NOTIFICATIONS)
+            required.add(Manifest.permission.READ_MEDIA_AUDIO)
         }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            required.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
         return required
     }
+
 
     private fun getPermissionState(activity: MainActivity): PermissionState {
         val requiredPermissions = getRequiredPermissions()
