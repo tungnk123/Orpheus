@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tungnk123.orpheus.data.model.Playlist
 import com.tungnk123.orpheus.ui.common.ScaffoldDialog
+import com.tungnk123.orpheus.ui.common.SongCard
+import com.tungnk123.orpheus.ui.common.SubtleCaptionText
 
 @Composable
 fun AddToPlaylistDialog(
@@ -38,20 +40,18 @@ fun AddToPlaylistDialog(
         },
         content = {
             when {
-                playlists.isEmpty() -> SubtleCaptionText(context.symphony.t.NoInAppPlaylistsFound)
+                playlists.isEmpty() -> SubtleCaptionText("No in-app playlist found!")
                 else -> LazyColumn(modifier = Modifier.padding(bottom = 4.dp)) {
                     items(playlists) { playlist ->
-                        val playlistSongIds = playlist.getSongIds(context.symphony)
+                        val playlistSongPaths = playlist.songPaths
 
-                        GenericGrooveCard(
-                            image = playlist
-                                .createArtworkImageRequest(context.symphony)
-                                .build(),
+                        SongCard(
+                            image = null,
                             imageLabel = when {
-                                songIds.size == 1 && playlistSongIds.contains(songIds[0]) -> ({
+                                songIds.size == 1 && playlistSongPaths.contains(songIds[0]) -> ({
                                     Icon(
-                                        Icons.Filled.Check,
-                                        null,
+                                        imageVector = Icons.Filled.Check,
+                                        contentDescription = null,
                                         modifier = Modifier.size(12.dp),
                                     )
                                 })
@@ -62,12 +62,12 @@ fun AddToPlaylistDialog(
                                 Text(playlist.title)
                             },
                             options = { expanded, onDismissRequest ->
-                                PlaylistDropdownMenu(
-                                    context,
-                                    playlist,
-                                    expanded = expanded,
-                                    onDismissRequest = onDismissRequest,
-                                )
+//                                PlaylistDropdownMenu(
+//                                    context,
+//                                    playlist,
+//                                    expanded = expanded,
+//                                    onDismissRequest = onDismissRequest,
+//                                )
                             },
                             onClick = {
 //                                context.symphony.groove.playlist.update(
