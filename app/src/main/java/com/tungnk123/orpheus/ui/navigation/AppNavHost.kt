@@ -14,8 +14,6 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = NavigationRoute.ForYou.route
 ) {
-    val context = LocalContext.current
-
     NavHost(
         navController = navController,
         startDestination = startDestination,

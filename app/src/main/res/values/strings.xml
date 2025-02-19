@@ -19,4 +19,6 @@
     <string name="add_to_playlist">Add to playlist</string>
     <string name="share_song">Share song</string>
     <string name="view_details">View details</string>
+    <string name="rescan">Rescan</string>
+    <string name="settings">Settings</string>
 </resources>

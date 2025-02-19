@@ -9,19 +9,21 @@ import com.tungnk123.orpheus.utils.AppConstants.SHARING_STARTED_STOP_TIMEOUT
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class SongViewModel @Inject constructor(
-    private val songRepository: SongRepository,
+    songRepository: SongRepository,
     @Dispatcher(OrpheusDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val songs = songRepository.observeSongs().stateIn(
-        scope = viewModelScope,
-        initialValue = emptyList(),
-        started = SharingStarted.WhileSubscribed(SHARING_STARTED_STOP_TIMEOUT)
-    )
-
+    val songs = songRepository.observeSongs()
+        .flowOn(ioDispatcher)
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = emptyList(),
+            started = SharingStarted.WhileSubscribed(SHARING_STARTED_STOP_TIMEOUT)
+        )
 }

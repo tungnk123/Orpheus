@@ -3,7 +3,6 @@ package com.tungnk123.orpheus.ui.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,10 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,30 +53,16 @@ private fun SongCardThumbnailLabelStyle.contentColor(colorScheme: ColorScheme) =
 fun SongCard(
     song: Song,
     highlighted: Boolean = false,
-    autoHighlight: Boolean = true,
+    isCurrentPlaying: Boolean = false,
     disableHeartIcon: Boolean = false,
     leading: @Composable () -> Unit = {},
     thumbnailLabel: (@Composable () -> Unit)? = null,
     thumbnailLabelStyle: SongCardThumbnailLabelStyle = SongCardThumbnailLabelStyle.Default,
-    trailingOptionsContent: (@Composable ColumnScope.(() -> Unit) -> Unit)? = null,
+    showOptionsMenu: Boolean = false,
+    onMenuClick: () -> Unit,
+    menuContent: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
 ) {
-//    val queue by context.symphony.radio.observatory.queue.collectAsState()
-//    val queueIndex by context.symphony.radio.observatory.queueIndex.collectAsState()
-//    val isCurrentPlaying by remember(autoHighlight, song, queue) {
-//        derivedStateOf { autoHighlight && song.id == queue.getOrNull(queueIndex) }
-//    }
-//    val favoriteSongIds by context.symphony.groove.playlist.favorites.collectAsState()
-//    val isFavorite by remember(favoriteSongIds, song) {
-//        derivedStateOf { favoriteSongIds.contains(song.id) }
-//    }
-    val isCurrentPlaying by remember {
-        mutableStateOf(false)
-    }
-    val isFavorite by remember {
-        mutableStateOf(false)
-    }
-
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
@@ -123,7 +104,10 @@ fun SongCard(
                                         backgroundColor,
                                         RoundedCornerShape(4.dp)
                                     )
-                                    .padding(3.dp, 0.dp)
+                                    .padding(
+                                        3.dp,
+                                        0.dp
+                                    )
 
                             ) {
                                 ProvideTextStyle(
@@ -145,14 +129,14 @@ fun SongCard(
                                 else -> LocalTextStyle.current.color
                             }
                         ),
-                        maxLines = 2,
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                     if (song.artists.isNotEmpty()) {
                         Text(
                             song.artists.joinToString(),
                             style = MaterialTheme.typography.bodySmall,
-                            maxLines = 2,
+                            maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
@@ -160,7 +144,7 @@ fun SongCard(
                 Spacer(modifier = Modifier.width(15.dp))
 
                 Row {
-                    if (!disableHeartIcon && isFavorite) {
+                    if (!disableHeartIcon && song.isFavorite) {
                         IconButton(
                             modifier = Modifier.offset(
                                 4.dp,
@@ -179,24 +163,15 @@ fun SongCard(
                         }
                     }
 
-                    var showOptionsMenu by remember { mutableStateOf(false) }
                     IconButton(
-                        onClick = { showOptionsMenu = !showOptionsMenu }
+                        onClick = onMenuClick
                     ) {
                         Icon(
                             Icons.Filled.MoreVert,
                             null,
                             modifier = Modifier.size(24.dp),
                         )
-//                        SongDropdownMenu(
-//                            song = song,
-//                            isFavorite = false,
-//                            trailingContent = trailingOptionsContent,
-//                            expanded = showOptionsMenu,
-//                            onDismissRequest = {
-//                                showOptionsMenu = false
-//                            }
-//                        )
+                        menuContent?.invoke()
                     }
                 }
             }

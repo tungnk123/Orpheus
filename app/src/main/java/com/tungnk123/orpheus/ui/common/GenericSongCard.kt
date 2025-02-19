@@ -41,7 +41,7 @@ fun GenericSongCard(
         ) {
             Box(modifier = Modifier.size(45.dp)) {
                 AsyncImage(
-                    model = image ?: R.raw.placeholder_dark,
+                    model = image ?: R.raw.placeholder_light,
                     contentDescription = null,
                     modifier = Modifier.clip(RoundedCornerShape(10.dp))
                 )

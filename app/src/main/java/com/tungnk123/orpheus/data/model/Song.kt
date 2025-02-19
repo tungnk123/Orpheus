@@ -10,6 +10,7 @@ data class Song(
     @PrimaryKey val id: String = "",
     val title: String = "",
     val album: String? = null,
+    val isFavorite: Boolean = false,
     val artists: Set<String> = emptySet(),
     val composers: Set<String> = emptySet(),
     val albumArtists: Set<String> = emptySet(),

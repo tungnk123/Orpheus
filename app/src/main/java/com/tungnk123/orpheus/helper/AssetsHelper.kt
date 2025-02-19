@@ -11,8 +11,8 @@ import coil3.request.placeholder
 import com.tungnk123.orpheus.R
 
 object AssetsHelper {
-    private val placeholderDarkId = R.raw.placeholder_dark
-    private val placeholderLightId = R.raw.placeholder_light
+    val placeholderDarkId = R.raw.placeholder_dark
+    val placeholderLightId = R.raw.placeholder_light
 
     private fun getPlaceholderId(isLight: Boolean = false) = when {
         isLight -> placeholderLightId

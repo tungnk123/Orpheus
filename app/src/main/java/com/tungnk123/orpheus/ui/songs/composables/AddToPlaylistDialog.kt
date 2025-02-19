@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tungnk123.orpheus.data.model.Playlist
 import com.tungnk123.orpheus.ui.common.ScaffoldDialog
-import com.tungnk123.orpheus.ui.common.SongCard
+import com.tungnk123.orpheus.ui.common.GenericSongCard
 import com.tungnk123.orpheus.ui.common.SubtleCaptionText
 
 @Composable
@@ -45,7 +45,7 @@ fun AddToPlaylistDialog(
                     items(playlists) { playlist ->
                         val playlistSongPaths = playlist.songPaths
 
-                        SongCard(
+                        GenericSongCard(
                             image = null,
                             imageLabel = when {
                                 songIds.size == 1 && playlistSongPaths.contains(songIds[0]) -> ({
