@@ -80,8 +80,8 @@ fun SongCard(
                 leading()
                 Box {
                     AsyncImage(
-                        AssetsHelper.placeholderDarkId,
-                        null,
+                        model = AssetsHelper.placeholderLightId,
+                        contentDescription = null,
                         modifier = Modifier
                             .size(45.dp)
                             .clip(RoundedCornerShape(10.dp)),
