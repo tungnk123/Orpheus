@@ -8,4 +8,6 @@ object AppConstants {
      */
     const val CACHE_SIZE_CONFIG = 100
 
+    const val SHARING_STARTED_STOP_TIMEOUT = 5_000L
+
 }

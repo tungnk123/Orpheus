@@ -8,6 +8,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.request.fallback
 import coil3.request.placeholder
+import com.tungnk123.orpheus.helper.AssetsHelper
 
 enum class ScreenOrientation {
     PORTRAIT,
@@ -32,7 +33,11 @@ enum class ScreenOrientation {
     }
 }
 
-fun createHandyImageRequest(context: Context, image: Any, fallback: Int) =
+fun createHandyImageRequest(
+    context: Context,
+    image: Any,
+    fallback: Int = AssetsHelper.placeholderDarkId
+) =
     createHandyImageRequest(context, image, fallbackResId = fallback)
 
 private fun createHandyImageRequest(
