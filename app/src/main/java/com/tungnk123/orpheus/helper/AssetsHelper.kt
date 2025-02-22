@@ -11,10 +11,10 @@ import coil3.request.placeholder
 import com.tungnk123.orpheus.R
 
 object AssetsHelper {
-    val placeholderDarkId = R.raw.placeholder_dark
-    val placeholderLightId = R.raw.placeholder_light
+    val placeholderDarkId = R.drawable.placeholder_dark
+    val placeholderLightId = R.drawable.placeholder_light
 
-    private fun getPlaceholderId(isLight: Boolean = false) = when {
+    fun getPlaceholderId(isLight: Boolean = false) = when {
         isLight -> placeholderLightId
         else -> placeholderDarkId
     }
@@ -48,11 +48,11 @@ object AssetsHelper {
         image: Any,
         fallbackResId: Int? = null,
     ) = ImageRequest.Builder(context).apply {
+        placeholder(placeholderLightId)
         data(image)
         fallbackResId?.let {
             placeholder(it)
             fallback(it)
-            error(it)
         }
         crossfade(true)
     }
