@@ -2,6 +2,7 @@ package com.tungnk123.orpheus.ui.songs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,11 +15,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tungnk123.orpheus.R
+import com.tungnk123.orpheus.data.model.Song
+import com.tungnk123.orpheus.ui.common.AnimatedNowPlayingBottomBar
 import com.tungnk123.orpheus.ui.common.CenterAlignedTopBarWithSearch
 import com.tungnk123.orpheus.ui.common.SongCard
 import com.tungnk123.orpheus.ui.songs.composables.SongDropdownMenu
+import com.tungnk123.orpheus.utils.extensions.showToast
 
 @Composable
 fun SongScreen(
@@ -31,8 +37,49 @@ fun SongScreen(
         modifier = modifier,
         topBar = {
             CenterAlignedTopBarWithSearch(
-                title = "Songs",
+                title = stringResource(R.string.songs),
                 onSearchClick = {}
+            )
+        },
+        bottomBar = {
+            val mockSong = Song(
+                id = "1",
+                title = "Sample Song",
+                album = "Sample Album",
+            )
+            AnimatedNowPlayingBottomBar(
+                insetPadding = true,
+                currentPlayingSong = mockSong,
+                isPlaying = true,
+                playbackPosition = 0.5f,
+                showTrackControls = true,
+                showSeekControls = true,
+                seekBackDuration = 500,
+                seekForwardDuration = 500,
+                onPlayPause = {
+                    context.showToast("onPlayPause Click")
+                },
+                onSkipNext = {
+                    context.showToast("onSkipNext Click")
+                    true
+                },
+                onSkipPrevious = {
+                    context.showToast("onSkipPrevious Click")
+                    true
+                },
+                onSeekForward = {
+                    context.showToast("onSeekForward Click")
+                },
+                onSeekBackward = {
+                    context.showToast("onSeekBackward Click")
+                },
+                onStop = {
+                    context.showToast("onStop Click")
+                },
+                onExpandPlayer = {
+                    context.showToast("onExpandPlayer Click")
+                },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     ) { innerPaddings ->
@@ -62,7 +109,9 @@ fun SongScreen(
                             onDismissRequest = {
                                 expanded = false
                             },
-                            onShareSongClick = {},
+                            onShareSongClick = {
+                                context.showToast("Share song Click")
+                            },
                             onFavoriteChange = {},
                             onViewAlbumClick = {},
                             onViewArtistClick = {},
