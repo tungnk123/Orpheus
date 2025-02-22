@@ -1,7 +1,7 @@
 [versions]
 accompanistPermissions = "0.37.0"
 agp = "8.8.0"
-coilCompose = "3.0.4"
+coilCompose = "3.1.0"
 converterKotlinxSerialization = "2.11.0"
 datastorePreferences = "1.1.2"
 hiltAndroidCompiler = "2.51.1"
