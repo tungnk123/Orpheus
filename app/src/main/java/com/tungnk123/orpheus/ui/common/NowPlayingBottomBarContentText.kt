@@ -1,13 +1,8 @@
 package com.tungnk123.orpheus.ui.common
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
@@ -17,8 +12,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
@@ -64,36 +57,7 @@ fun NowPlayingBottomBarContentText(
             exit = FadeTransition.exitTransition(),
         ) {
             val backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-
-            Row {
-                Box(
-                    modifier = Modifier
-                        .width(12.dp)
-                        .fillMaxHeight()
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    backgroundColor,
-                                    Color.Transparent
-                                )
-                            )
-                        )
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Box(
-                    modifier = Modifier
-                        .width(12.dp)
-                        .fillMaxHeight()
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    backgroundColor
-                                )
-                            )
-                        )
-                )
-            }
+            GradientOverlay(backgroundColor = backgroundColor)
         }
     }
 }
