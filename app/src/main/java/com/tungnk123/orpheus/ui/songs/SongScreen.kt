@@ -38,7 +38,12 @@ fun SongScreen(
         topBar = {
             CenterAlignedTopBarWithSearch(
                 title = stringResource(R.string.songs),
-                onSearchClick = {}
+                onSearchClick = {},
+                onRescanClick = {
+                    songViewModel.fetchSongsFromMediaStoreAndSaveToDatabase()
+                },
+                onAdvancedRescanClick = {},
+                onSettingsClick = {}
             )
         },
         bottomBar = {

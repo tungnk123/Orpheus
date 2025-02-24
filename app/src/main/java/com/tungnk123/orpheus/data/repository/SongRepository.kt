@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface SongRepository {
     fun observeSongs(): Flow<List<Song>>
+    suspend fun insertSong(song: Song)
+    suspend fun insertSongs(songs: List<Song>)
 }
