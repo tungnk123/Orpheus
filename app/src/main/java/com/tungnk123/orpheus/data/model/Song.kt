@@ -2,6 +2,9 @@ package com.tungnk123.orpheus.data.model
 
 import android.content.Context
 import android.net.Uri
+import androidx.core.net.toUri
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.tungnk123.orpheus.helper.AssetsHelper
@@ -42,3 +45,22 @@ data class Song(
     ).build()
 
 }
+
+fun Song.toMediaItem(path: String) =
+    MediaItem
+        .Builder()
+        .setMediaId("$path/$id")
+        .setMediaMetadata(
+            MediaMetadata
+                .Builder()
+                .setTitle(this.title)
+                .setSubtitle(artists.toString())
+                .setArtist(artists.toString())
+                .setArtworkUri(this.coverFile?.toUri())
+                .setIsPlayable(true)
+                .setIsBrowsable(false)
+                .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
+                .build(),
+        )
+        .build()
+
