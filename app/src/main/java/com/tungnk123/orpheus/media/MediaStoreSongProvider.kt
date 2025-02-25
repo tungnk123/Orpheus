@@ -3,9 +3,7 @@ package com.tungnk123.orpheus.media
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
-import androidx.annotation.RequiresApi
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
@@ -24,7 +22,6 @@ import javax.inject.Singleton
 @Singleton
 class MediaStoreSongProvider @Inject constructor(@ApplicationContext private val context: Context) {
 
-    @RequiresApi(Build.VERSION_CODES.S)
     fun getAllSongs(): Flow<List<Song>> = flow {
         val songs = mutableListOf<Song>()
         val uri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI

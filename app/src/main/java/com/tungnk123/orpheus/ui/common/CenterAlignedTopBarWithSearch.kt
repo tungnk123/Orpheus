@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -32,6 +33,9 @@ import com.tungnk123.orpheus.R
 fun CenterAlignedTopBarWithSearch(
     title: String,
     onSearchClick: () -> Unit,
+    onRescanClick: () -> Unit,
+    onAdvancedRescanClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var expanded by remember {
@@ -92,6 +96,22 @@ fun CenterAlignedTopBarWithSearch(
                             },
                             onClick = {
                                 expanded = !expanded
+                                onRescanClick()
+                            }
+                        )
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Filled.RestartAlt,
+                                    stringResource(R.string.advanced_rescan),
+                                )
+                            },
+                            text = {
+                                Text(stringResource(R.string.advanced_rescan))
+                            },
+                            onClick = {
+                                expanded = !expanded
+                                onAdvancedRescanClick()
                             }
                         )
                         DropdownMenuItem(
@@ -106,6 +126,7 @@ fun CenterAlignedTopBarWithSearch(
                             },
                             onClick = {
                                 expanded = !expanded
+                                onSettingsClick()
                             }
                         )
                     }

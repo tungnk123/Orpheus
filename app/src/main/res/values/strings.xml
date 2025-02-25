@@ -20,6 +20,7 @@
     <string name="share_song">Share song</string>
     <string name="view_details">View details</string>
     <string name="rescan">Rescan</string>
+    <string name="advanced_rescan">Advanced Rescan</string>
     <string name="settings">Settings</string>
     <string name="msg_album_artwork">Album Artwork</string>
 </resources>
