@@ -1,7 +1,5 @@
 package com.tungnk123.orpheus.ui.songs
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tungnk123.orpheus.data.repository.SongRepository
@@ -9,6 +7,7 @@ import com.tungnk123.orpheus.di.Dispatcher
 import com.tungnk123.orpheus.di.OrpheusDispatchers
 import com.tungnk123.orpheus.media.MediaStoreSongProvider
 import com.tungnk123.orpheus.utils.AppConstants.SHARING_STARTED_STOP_TIMEOUT
+import com.tungnk123.orpheus.utils.extensions.printLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,10 +33,19 @@ class SongViewModel @Inject constructor(
 
     fun fetchSongsFromMediaStoreAndSaveToDatabase() {
         viewModelScope.launch(ioDispatcher) {
-            mediaStoreSongProvider.getAllSongs()
-                .collect { songs ->
-                    songRepository.insertSongs(songs)
-                }
+            try {
+                mediaStoreSongProvider.getAllSongs()
+                    .collect { songs ->
+                        songRepository.insertSongs(songs)
+                    }
+            }
+            catch (e: Exception) {
+                e.toString().printLog(TAG)
+            }
         }
+    }
+
+    companion object {
+        private const val TAG = "SongViewModel"
     }
 }
