@@ -89,6 +89,7 @@ dependencies {
     // Coroutine
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.coroutines.guava)
 
     // Coil
     implementation(libs.coil.compose)
