@@ -10,8 +10,10 @@ object AppConstants {
      * TODO: Consider making this configurable based on device memory constraints
      */
     const val CACHE_SIZE_CONFIG = 100
-
     const val SHARING_STARTED_STOP_TIMEOUT = 5_000L
+    const val LYRIC_ANIMATE_SCROLL_DURATION = 300L
+    const val LYRICS_NOT_FOUND = "LYRICS_NOT_FOUND"
+
 
 }
 
