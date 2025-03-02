@@ -22,3 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "Orpheus"
 include(":app")
 include(":material-color-utilities")
+include(":kizzy")
+include(":kugou")
+include(":lrclib")
+include(":innertube")

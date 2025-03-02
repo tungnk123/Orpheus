@@ -31,6 +31,8 @@ androidx-hilt = "1.2.0"
 datastorePreferencesCoreJvm = "1.1.2"
 datastoreCoreAndroid = "1.1.2"
 google-dagger = "2.50"
+ktor = "3.0.3"
+json = "20241224"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -73,6 +75,17 @@ fuzzywuzzy = { group = "me.xdrop", name = "fuzzywuzzy", version.ref = "fuzzywuzz
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt" }
 coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version = "1.10.1" }
+
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor_client_cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-encoding = { group = "io.ktor", name = "ktor-client-encoding", version.ref = "ktor" }
+ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+json = { module = "org.json:json", version.ref = "json" }
+
+brotli = { group = "org.brotli", name = "dec", version = "0.1.2" }
+newpipe-extractor = { module = "com.github.gechoto:NewPipeExtractor", version = "00cf7dad9e49933c7faaa382c9c7b1e7afb28a7d" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
