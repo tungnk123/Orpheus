@@ -12,14 +12,30 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import com.tungnk123.orpheus.utils.extensions.toEnum
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.properties.ReadOnlyProperty
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+operator fun <T> DataStore<Preferences>.get(key: Preferences.Key<T>): T? =
+    runBlocking(Dispatchers.IO) {
+        data.first()[key]
+    }
+
+fun <T> DataStore<Preferences>.get(
+    key: Preferences.Key<T>,
+    defaultValue: T,
+): T =
+    runBlocking(Dispatchers.IO) {
+        data.first()[key] ?: defaultValue
+    }
 
 suspend fun <T> DataStore<Preferences>.getAsync(key: Preferences.Key<T>): T? =
     data.firstOrNull()

@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":kugou"))
     implementation(project(":innertube"))
     implementation(project(":lrclib"))
+    implementation(libs.androidx.media3.datasource.okhttp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
