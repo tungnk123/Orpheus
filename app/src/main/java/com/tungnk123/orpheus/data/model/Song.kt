@@ -2,9 +2,11 @@ package com.tungnk123.orpheus.data.model
 
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.OptIn
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.util.UnstableApi
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.tungnk123.orpheus.helper.AssetsHelper
@@ -46,21 +48,27 @@ data class Song(
 
 }
 
-fun Song.toMediaItem(path: String) =
+@OptIn(UnstableApi::class)
+fun Song.toMediaItem() =
     MediaItem
         .Builder()
-        .setMediaId("$path/$id")
+        .setMediaId(this.id)
+        .setUri(this.uri)
+        .setCustomCacheKey(this.id)
+        .setTag(this)
         .setMediaMetadata(
             MediaMetadata
                 .Builder()
                 .setTitle(this.title)
-                .setSubtitle(artists.toString())
-                .setArtist(artists.toString())
+                .setSubtitle(artists.joinToString())
+                .setArtist(artists.joinToString())
+                .setAlbumTitle(this.album)
                 .setArtworkUri(this.coverFile?.toUri())
+                .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
                 .setIsPlayable(true)
                 .setIsBrowsable(false)
-                .setMediaType(MediaMetadata.MEDIA_TYPE_MUSIC)
-                .build(),
+                .build()
         )
         .build()
+
 

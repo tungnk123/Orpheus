@@ -1,10 +1,10 @@
 package com.tungnk123.orpheus.playback.queues
 
 import androidx.media3.common.MediaItem
-import androidx.media3.common.MediaMetadata
+import com.tungnk123.orpheus.data.model.Song
 
 object EmptyQueue : Queue {
-    override val preloadItem: MediaMetadata? = null
+    override val preloadSong: Song? = null
 
     override suspend fun getInitialStatus() = Queue.Status(
         null,

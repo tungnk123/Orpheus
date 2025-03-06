@@ -20,6 +20,8 @@ class SongRepositoryImpl @Inject constructor(
         return temp
     }
 
+    override suspend fun getSongById(id: String) = localSongDataSource.getSongById(id)
+
     override suspend fun insertSong(song: Song) {
         localSongDataSource.insertSong(song)
     }

@@ -1,7 +1,7 @@
 package com.tungnk123.orpheus.playback.queues
 
 import androidx.media3.common.MediaItem
-import androidx.media3.common.MediaMetadata
+import com.tungnk123.orpheus.data.model.Song
 
 class ListQueue(
     val title: String? = null,
@@ -9,7 +9,7 @@ class ListQueue(
     val startIndex: Int = 0,
     val position: Long = 0L,
 ) : Queue {
-    override val preloadItem: MediaMetadata? = null
+    override val preloadSong: Song? = null
 
     override suspend fun getInitialStatus() = Queue.Status(
         title,
