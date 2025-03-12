@@ -8,6 +8,14 @@ kotlin {
     jvmToolchain(17)
 }
 
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { setUrl("https://jitpack.io") }
+    }
+}
+
 dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.okhttp)

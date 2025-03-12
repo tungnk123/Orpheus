@@ -1,6 +1,9 @@
 package com.tungnk123.orpheus.data.repository
 
 import com.tungnk123.orpheus.data.datasource.LocalSongDataSource
+import com.tungnk123.orpheus.data.model.Event
+import com.tungnk123.orpheus.data.model.FormatEntity
+import com.tungnk123.orpheus.data.model.Lyric
 import com.tungnk123.orpheus.data.model.Song
 import com.tungnk123.orpheus.di.Dispatcher
 import com.tungnk123.orpheus.di.OrpheusDispatchers
@@ -28,6 +31,37 @@ class SongRepositoryImpl @Inject constructor(
 
     override suspend fun insertSongs(songs: List<Song>) {
         localSongDataSource.insertSongs(songs)
+    }
+
+    override suspend fun updateSong(song: Song) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun incrementTotalPlayTime(
+        id: String,
+        playTime: Long
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertEvent(event: Event) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPlaybackUrl(id: String): String? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getLyrics(id: String): Lyric? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertLyrics(lyricsEntity: Lyric) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getFormatById(id: String): FormatEntity? {
+        TODO("Not yet implemented")
     }
 
     companion object {

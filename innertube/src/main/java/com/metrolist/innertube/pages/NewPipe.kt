@@ -1,5 +1,6 @@
-package com.metrolist.innertube
+package com.metrolist.innertube.pages
 
+import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.YouTubeClient
 import com.metrolist.innertube.models.response.PlayerResponse
 import io.ktor.http.URLBuilder

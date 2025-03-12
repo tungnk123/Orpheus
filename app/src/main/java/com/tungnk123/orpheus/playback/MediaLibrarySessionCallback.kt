@@ -82,7 +82,6 @@ class MediaLibrarySessionCallback @Inject constructor(
             LibraryResult.ofItem(
                 MediaItem
                     .Builder()
-                    .setMediaId(MusicService.ROOT)
                     .setMediaMetadata(
                         MediaMetadata
                             .Builder()

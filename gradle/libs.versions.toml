@@ -86,7 +86,7 @@ ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlin
 json = { module = "org.json:json", version.ref = "json" }
 
 brotli = { group = "org.brotli", name = "dec", version = "0.1.2" }
-newpipe-extractor = { module = "com.github.gechoto:NewPipeExtractor", version = "00cf7dad9e49933c7faaa382c9c7b1e7afb28a7d" }
+newpipe-extractor = { module = "com.github.teamnewpipe:NewPipeExtractor", version = "v0.24.4" }
 androidx-media3-datasource-okhttp = { group = "androidx.media3", name = "media3-datasource-okhttp", version.ref = "media3DatasourceOkhttp" }
 
 [plugins]

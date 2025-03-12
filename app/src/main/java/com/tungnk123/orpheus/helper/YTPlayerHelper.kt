@@ -4,7 +4,7 @@ import android.net.ConnectivityManager
 import androidx.annotation.OptIn
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.util.UnstableApi
-import com.metrolist.innertube.NewPipeUtils
+import com.metrolist.innertube.pages.NewPipeUtils
 import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.YouTubeClient
 import com.metrolist.innertube.models.YouTubeClient.Companion.IOS
