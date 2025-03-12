@@ -73,6 +73,7 @@ class MediaLibrarySessionCallback @Inject constructor(
         return Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
     }
 
+    @OptIn(UnstableApi::class)
     override fun onGetLibraryRoot(
         session: MediaLibrarySession,
         browser: MediaSession.ControllerInfo,
@@ -82,6 +83,7 @@ class MediaLibrarySessionCallback @Inject constructor(
             LibraryResult.ofItem(
                 MediaItem
                     .Builder()
+                    .setMediaId(MusicService.ROOT)
                     .setMediaMetadata(
                         MediaMetadata
                             .Builder()
