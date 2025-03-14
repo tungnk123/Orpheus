@@ -30,7 +30,7 @@ annotation = "1.9.1"
 androidx-hilt = "1.2.0"
 datastorePreferencesCoreJvm = "1.1.2"
 datastoreCoreAndroid = "1.1.2"
-google-dagger = "2.50"
+google-dagger = "2.55"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
