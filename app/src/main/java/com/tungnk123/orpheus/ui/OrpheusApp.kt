@@ -1,5 +1,6 @@
 package com.tungnk123.orpheus.ui
 
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,16 +11,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.media3.common.util.UnstableApi
 import androidx.navigation.compose.rememberNavController
+import com.tungnk123.orpheus.playback.LocalPlayerConnection
 import com.tungnk123.orpheus.ui.navigation.AppNavHost
 import com.tungnk123.orpheus.ui.navigation.BottomNavigationBar
 
+@OptIn(dagger.hilt.android.UnstableApi::class)
+@UnstableApi
 @Composable
 fun OrpheusApp(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = hiltViewModel(),
 ) {
     val navController = rememberNavController()
+    val playerConnection = LocalPlayerConnection.current
+
     val currentTab by viewModel.currentTab.collectAsStateWithLifecycle()
 
     Scaffold(

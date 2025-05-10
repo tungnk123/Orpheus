@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.database.DatabaseProvider
+import androidx.media3.database.StandaloneDatabaseProvider
+import androidx.media3.datasource.cache.Cache
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
@@ -13,14 +15,21 @@ import com.tungnk123.orpheus.data.datastore.get
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ServiceComponent::class)
+@InstallIn(SingletonComponent::class)
 object CacheModule {
+
+    @OptIn(UnstableApi::class)
+    @Singleton
+    @Provides
+    fun provideDatabaseProvider(@ApplicationContext context: Context): DatabaseProvider {
+        return StandaloneDatabaseProvider(context)
+    }
 
     @OptIn(UnstableApi::class)
     @Singleton
@@ -29,7 +38,7 @@ object CacheModule {
     fun providePlayerCache(
         @ApplicationContext context: Context,
         databaseProvider: DatabaseProvider,
-    ): SimpleCache {
+    ): Cache {
         val constructor = {
             SimpleCache(
                 context.filesDir.resolve("exoplayer"),
@@ -51,7 +60,7 @@ object CacheModule {
     fun provideDownloadCache(
         @ApplicationContext context: Context,
         databaseProvider: DatabaseProvider,
-    ): SimpleCache {
+    ): Cache {
         val constructor = {
             SimpleCache(
                 context.filesDir.resolve("download"),

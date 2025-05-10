@@ -1,5 +1,6 @@
 package com.tungnk123.orpheus.ui.songs
 
+import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,18 +21,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tungnk123.orpheus.R
 import com.tungnk123.orpheus.data.model.Song
+import com.tungnk123.orpheus.playback.LocalPlayerConnection
 import com.tungnk123.orpheus.ui.common.AnimatedNowPlayingBottomBar
 import com.tungnk123.orpheus.ui.common.CenterAlignedTopBarWithSearch
 import com.tungnk123.orpheus.ui.common.SongCard
 import com.tungnk123.orpheus.ui.songs.composables.SongDropdownMenu
 import com.tungnk123.orpheus.utils.extensions.showToast
+import com.tungnk123.orpheus.utils.extensions.togglePlayPause
 
+@OptIn(androidx.media3.common.util.UnstableApi::class)
 @Composable
 fun SongScreen(
     modifier: Modifier = Modifier,
-    songViewModel: SongViewModel = hiltViewModel()
+    songViewModel: SongViewModel = hiltViewModel(),
 ) {
     val songs by songViewModel.songs.collectAsStateWithLifecycle()
+    val playerConnection = LocalPlayerConnection.current
     val context = LocalContext.current
     Scaffold(
         modifier = modifier,
@@ -62,6 +67,7 @@ fun SongScreen(
                 seekBackDuration = 500,
                 seekForwardDuration = 500,
                 onPlayPause = {
+                    playerConnection?.player?.togglePlayPause()
                     context.showToast("onPlayPause Click")
                 },
                 onSkipNext = {

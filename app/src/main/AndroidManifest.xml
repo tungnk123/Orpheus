@@ -11,6 +11,7 @@
         android:maxSdkVersion="29"/>
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".OrpheusApplication"
@@ -33,6 +34,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".playback.MusicService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+                <action android:name="androidx.media3.session.MediaLibraryService" />
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

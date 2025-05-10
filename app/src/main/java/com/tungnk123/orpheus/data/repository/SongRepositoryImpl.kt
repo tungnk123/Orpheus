@@ -23,7 +23,7 @@ class SongRepositoryImpl @Inject constructor(
         return temp
     }
 
-    override suspend fun getSongById(id: String) = localSongDataSource.getSongById(id)
+    override fun getSongById(id: String) = localSongDataSource.getSongById(id)
 
     override suspend fun insertSong(song: Song) {
         localSongDataSource.insertSong(song)
@@ -52,15 +52,16 @@ class SongRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getLyrics(id: String): Lyric? {
+    override fun getLyrics(id: String): Flow<Lyric?> {
         TODO("Not yet implemented")
     }
+
 
     override suspend fun insertLyrics(lyricsEntity: Lyric) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getFormatById(id: String): FormatEntity? {
+    override fun getFormatById(id: String): Flow<FormatEntity?> {
         TODO("Not yet implemented")
     }
 

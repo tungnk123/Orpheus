@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SongRepository {
     fun observeSongs(): Flow<List<Song>>
-    suspend fun getSongById(id: String): Song
+    fun getSongById(id: String): Flow<Song>
     suspend fun insertSong(song: Song)
     suspend fun insertSongs(songs: List<Song>)
     suspend fun updateSong(song: Song)
@@ -19,7 +19,7 @@ interface SongRepository {
 
     suspend fun insertEvent(event: Event)
     suspend fun getPlaybackUrl(id: String): String?
-    suspend fun getLyrics(id: String): Lyric?
+    fun getLyrics(id: String): Flow<Lyric?>
     suspend fun insertLyrics(lyricsEntity: Lyric)
-    suspend fun getFormatById(id: String): FormatEntity?
+    fun getFormatById(id: String): Flow<FormatEntity?>
 }

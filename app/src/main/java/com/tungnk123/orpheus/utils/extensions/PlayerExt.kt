@@ -1,5 +1,6 @@
 package com.tungnk123.orpheus.utils.extensions
 
+import android.net.Uri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -8,6 +9,7 @@ import androidx.media3.common.Player.REPEAT_MODE_ALL
 import androidx.media3.common.Player.REPEAT_MODE_OFF
 import androidx.media3.common.Player.REPEAT_MODE_ONE
 import androidx.media3.common.Timeline
+import com.tungnk123.orpheus.data.model.Song
 import java.util.ArrayDeque
 
 fun Player.togglePlayPause() {
@@ -101,8 +103,28 @@ fun Player.getCurrentQueueIndex(): Int {
     return index
 }
 
-val Player.currentMetadata: MediaMetadata?
-    get() = currentMediaItem?.mediaMetadata
+val Player.currentSong: Song?
+    get() = currentMediaItem?.toSong()
+
+val MediaItem.metadata: MediaMetadata?
+    get() = localConfiguration?.tag as? MediaMetadata
+
+fun MediaItem.toSong(): Song? {
+    val metadata = this.metadata ?: return null
+    return metadata.toSong(this)
+}
+
+fun MediaMetadata.toSong(mediaItem: MediaItem): Song {
+    return Song(
+        id = mediaItem.mediaId,
+        title = title?.toString() ?: "Unknown Title",
+        artists = artist?.split(", ")?.toSet() ?: emptySet(),
+        album = albumTitle?.toString(),
+        duration = extras?.getLong("duration") ?: 0L,
+        coverFile = artworkUri?.toString(),
+        uri = mediaItem.localConfiguration?.uri ?: Uri.EMPTY
+    )
+}
 
 val Player.mediaItems: List<MediaItem>
     get() =

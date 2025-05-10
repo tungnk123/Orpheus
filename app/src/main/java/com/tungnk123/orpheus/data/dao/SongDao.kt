@@ -2,7 +2,6 @@ package com.tungnk123.orpheus.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.MapColumn
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
@@ -27,7 +26,7 @@ interface SongDao {
     fun getSongs(): List<Song>
 
     @Query("SELECT * FROM Songs WHERE id = :songId")
-    suspend fun getSongById(songId: String): Song
+    fun getSongById(songId: String): Flow<Song>
 
     @Query("DELETE FROM Songs WHERE id = :songId")
     suspend fun deleteById(songId: String): Int

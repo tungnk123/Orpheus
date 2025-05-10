@@ -112,16 +112,16 @@ import kotlin.math.pow
     FlowPreview::class
 )
 @AndroidEntryPoint
-class MusicService @Inject constructor(
-    private val songRepository: SongRepository,
-    private val lyricsHelper: LyricsHelper,
-    private val mediaLibrarySessionCallback: MediaLibrarySessionCallback,
-    @Dispatcher(OrpheusDispatchers.Main) val mainDispatcher: CoroutineDispatcher,
-    @PlayerCache val playerCache: Cache,
-    @DownloadCache val downloadCache: Cache
-) : MediaLibraryService(), Player.Listener, PlaybackStatsListener.Callback {
+class MusicService @Inject constructor() : MediaLibraryService(), Player.Listener, PlaybackStatsListener.Callback {
 
-    private var scope = CoroutineScope(mainDispatcher) + Job()
+    @Inject lateinit var songRepository: SongRepository
+    @Inject lateinit var lyricsHelper: LyricsHelper
+    @Inject lateinit var mediaLibrarySessionCallback: MediaLibrarySessionCallback
+    @Inject @Dispatcher(OrpheusDispatchers.Main) lateinit var mainDispatcher: CoroutineDispatcher
+    @Inject @PlayerCache lateinit var playerCache: Cache
+    @Inject @DownloadCache lateinit var downloadCache: Cache
+
+    private lateinit var scope: CoroutineScope
     private val binder = MusicBinder()
     private lateinit var connectivityManager: ConnectivityManager
 
@@ -137,16 +137,7 @@ class MusicService @Inject constructor(
     private val currentSong = MutableStateFlow<Song?>(null)
 
     private val normalizeFactor = MutableStateFlow(1f)
-    val playerVolume = MutableStateFlow(
-        dataStore.get(
-            PlayerVolumeKey,
-            1f
-        )
-            .coerceIn(
-                0f,
-                1f
-            )
-    )
+    lateinit var playerVolume: MutableStateFlow<Float>
 
     lateinit var sleepTimer: SleepTimer
     lateinit var player: ExoPlayer
@@ -157,6 +148,13 @@ class MusicService @Inject constructor(
 
     override fun onCreate() {
         super.onCreate()
+        scope = CoroutineScope(mainDispatcher) + Job()
+        playerVolume = MutableStateFlow(
+            dataStore.get(
+                PlayerVolumeKey,
+                1f
+            ).coerceIn(0f, 1f)
+        )
         setMediaNotificationProvider(
             DefaultMediaNotificationProvider(
                 this,
@@ -266,9 +264,11 @@ class MusicService @Inject constructor(
                 ) {
                     val mediaId = player.currentMediaItem?.mediaId ?: return
                     scope.launch {
-                        val song = songRepository.getSongById(mediaId)
-                        currentSong.value = song
-                        updateNotification()
+                        songRepository.getSongById(mediaId)
+                            .collectLatest { song ->
+                                currentSong.value = song
+                                updateNotification()
+                            }
                     }
                 }
             }
@@ -298,20 +298,25 @@ class MusicService @Inject constructor(
             dataStore.data.map { it[AudioNormalizationKey] ?: true }
                 .distinctUntilChanged()
                 .collectLatest { normalizeAudio ->
-                    val format = currentSong.value?.let { songRepository.getFormatById(it.id) }
-                    normalizeFactor.value = if (normalizeAudio && format?.loudnessDb != null) {
-                        min(
-                            10f.pow(-format.loudnessDb.toFloat() / 20),
-                            1f
-                        )
-                    }
-                    else {
-                        1f
+                    currentSong.value?.let {
+                        songRepository.getFormatById(it.id)
+                            .collectLatest { format ->
+                                normalizeFactor.value =
+                                    if (normalizeAudio && format?.loudnessDb != null) {
+                                        min(
+                                            10f.pow(-format.loudnessDb.toFloat() / 20),
+                                            1f
+                                        )
+                                    }
+                                    else {
+                                        1f
+                                    }
+
+                            }
                     }
                 }
         }
 
-        // Khôi phục hàng đợi nếu có
         if (dataStore.get(
                 PersistentQueueKey,
                 true
@@ -413,6 +418,21 @@ class MusicService @Inject constructor(
                     .build()
             )
         )
+    }
+
+    fun playNext(items: List<MediaItem>) {
+        val currentIndex = player.currentMediaItemIndex
+        if (currentIndex >= 0) {
+            player.addMediaItems(currentIndex + 1, items)
+        } else {
+            player.setMediaItems(items)
+            player.prepare()
+            player.playWhenReady = true
+        }
+    }
+
+    fun addToQueue(items: List<MediaItem>) {
+        player.addMediaItems(items)
     }
 
     fun toggleLike() {
