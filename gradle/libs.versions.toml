@@ -1,5 +1,5 @@
 [versions]
-accompanistPermissions = "0.37.2"
+accompanistPermissions = "0.37.3"
 agp = "8.8.0"
 coilCompose = "3.1.0"
 converterKotlinxSerialization = "2.11.0"
