@@ -1,5 +1,6 @@
 package com.tungnk123.orpheus.playback
 
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -28,6 +29,10 @@ class PlayerConnection(
     scope: CoroutineScope,
     private val songRepository: SongRepository,
 ) : Player.Listener {
+
+    companion object {
+        private const val TAG = "PlayerConnection"
+    }
 
     val service = binder.service
     val player = service.player
@@ -102,6 +107,24 @@ class PlayerConnection(
         service.playNext(items)
     }
 
+    fun playNow(mediaItem: MediaItem) {
+        Log.d(
+            TAG,
+            "playNow() called with mediaId=${mediaItem.mediaId}"
+        )
+        Log.d("PlayerConnection", "mediaItem uri: ${mediaItem.localConfiguration?.uri}")
+        player.setMediaItem(mediaItem)
+
+        player.prepare()
+        player.playWhenReady = true
+
+        Log.d(
+            TAG,
+            "Player state after playNow: ${player.playbackState}"
+        )
+    }
+
+
     fun addToQueue(item: MediaItem) = addToQueue(listOf(item))
 
     fun addToQueue(items: List<MediaItem>) {
@@ -170,9 +193,16 @@ class PlayerConnection(
     }
 
     override fun onPlayerErrorChanged(playbackError: PlaybackException?) {
-        playbackError?.let { reportException(it) }
+        playbackError?.let {
+            reportException(it)
+            Log.e(
+                TAG,
+                "Player error: ${it.errorCodeName} - ${it.message}"
+            )
+        }
         error.value = playbackError
     }
+
 
     private fun updateCanSkipPreviousAndNext() {
         if (!player.currentTimeline.isEmpty) {

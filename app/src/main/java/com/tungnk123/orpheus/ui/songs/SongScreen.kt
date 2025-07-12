@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tungnk123.orpheus.R
-import com.tungnk123.orpheus.data.model.Song
+import com.tungnk123.orpheus.data.model.toMediaItem
 import com.tungnk123.orpheus.playback.LocalPlayerConnection
 import com.tungnk123.orpheus.ui.common.AnimatedNowPlayingBottomBar
 import com.tungnk123.orpheus.ui.common.CenterAlignedTopBarWithSearch
@@ -36,7 +36,9 @@ fun SongScreen(
     songViewModel: SongViewModel = hiltViewModel(),
 ) {
     val songs by songViewModel.songs.collectAsStateWithLifecycle()
-    val playerConnection = LocalPlayerConnection.current
+    val playerConnection = LocalPlayerConnection.current ?: return
+    val currentSong =
+        playerConnection.currentSong.collectAsStateWithLifecycle(initialValue = null)
     val context = LocalContext.current
     Scaffold(
         modifier = modifier,
@@ -52,14 +54,9 @@ fun SongScreen(
             )
         },
         bottomBar = {
-            val mockSong = Song(
-                id = "1",
-                title = "Sample Song",
-                album = "Sample Album",
-            )
             AnimatedNowPlayingBottomBar(
                 insetPadding = true,
-                currentPlayingSong = mockSong,
+                currentPlayingSong = currentSong?.value,
                 isPlaying = true,
                 playbackPosition = 0.5f,
                 showTrackControls = true,
@@ -107,7 +104,9 @@ fun SongScreen(
                 }
                 SongCard(
                     song = item,
-                    onClick = {},
+                    onClick = {
+                        playerConnection.playNow(item.toMediaItem())
+                    },
                     showOptionsMenu = expanded,
                     onMenuClick = {
                         expanded = !expanded

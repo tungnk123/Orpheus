@@ -108,9 +108,7 @@ import kotlin.math.min
 import kotlin.math.pow
 
 @UnstableApi
-@OptIn(
-    FlowPreview::class
-)
+@OptIn(FlowPreview::class)
 @AndroidEntryPoint
 class MusicService @Inject constructor() : MediaLibraryService(), Player.Listener, PlaybackStatsListener.Callback {
 
@@ -167,7 +165,7 @@ class MusicService @Inject constructor() : MediaLibraryService(), Player.Listene
         )
 
         player = ExoPlayer.Builder(this)
-            .setMediaSourceFactory(createMediaSourceFactory())
+            .setMediaSourceFactory(DefaultMediaSourceFactory(DefaultDataSource.Factory(this)))
             .setRenderersFactory(createRenderersFactory())
             .setHandleAudioBecomingNoisy(true)
             .setWakeMode(C.WAKE_MODE_NETWORK)
@@ -528,16 +526,6 @@ class MusicService @Inject constructor() : MediaLibraryService(), Player.Listene
                     CHUNK_LENGTH
                 )
         }
-    }
-
-
-    private fun createMediaSourceFactory() = DefaultMediaSourceFactory(
-        createDataSourceFactory(),
-    ) {
-        arrayOf(
-            MatroskaExtractor(),
-            FragmentedMp4Extractor()
-        )
     }
 
     private fun createRenderersFactory() = object : DefaultRenderersFactory(this) {

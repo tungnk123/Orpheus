@@ -36,10 +36,6 @@ class PermissionHandler @Inject constructor() {
             required.add(Manifest.permission.READ_MEDIA_AUDIO)
         }
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-            required.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
-
         return required
     }
 
