@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import com.tungnk123.orpheus.data.repository.SongRepository
 import com.tungnk123.orpheus.helper.PermissionHandler
 import com.tungnk123.orpheus.playback.LocalPlayerConnection
-import com.tungnk123.orpheus.playback.MusicService
 import com.tungnk123.orpheus.playback.PlayerConnection
 import com.tungnk123.orpheus.ui.OrpheusApp
 import com.tungnk123.orpheus.ui.common.LoadingScreen

@@ -9,6 +9,7 @@ import androidx.media3.common.Player.COMMAND_SEEK_TO_NEXT_MEDIA_ITEM
 import androidx.media3.common.Player.COMMAND_SEEK_TO_PREVIOUS_MEDIA_ITEM
 import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.Timeline
+import androidx.media3.exoplayer.ExoPlayer
 import com.tungnk123.orpheus.data.repository.SongRepository
 import com.tungnk123.orpheus.utils.extensions.getCurrentQueueIndex
 import com.tungnk123.orpheus.utils.extensions.getQueueWindows
@@ -35,7 +36,7 @@ class PlayerConnection(
     }
 
     val service = binder.service
-    val player = service.player
+    val player = service.playerManager.player
 
     val playbackState = MutableStateFlow(player.playbackState)
     private val playWhenReady = MutableStateFlow(player.playWhenReady)
@@ -66,7 +67,6 @@ class PlayerConnection(
         mediaId?.let { songRepository.getFormatById(it) } ?: flowOf(null)
     }
 
-    val queueTitle = MutableStateFlow<String?>(service.queueTitle)
     val queueWindows = MutableStateFlow(player.getQueueWindows())
     val currentMediaItemIndex = MutableStateFlow(player.currentMediaItemIndex)
     val currentWindowIndex = MutableStateFlow(player.getCurrentQueueIndex())
@@ -88,7 +88,7 @@ class PlayerConnection(
         playbackState.value = player.playbackState
         playWhenReady.value = player.playWhenReady
         currentMediaId.value = player.currentMediaItem?.mediaId
-        queueTitle.value = service.queueTitle
+        queueTitle.value = service.queueManager.queueTitle
         queueWindows.value = player.getQueueWindows()
         currentWindowIndex.value = player.getCurrentQueueIndex()
         currentMediaItemIndex.value = player.currentMediaItemIndex
@@ -174,7 +174,7 @@ class PlayerConnection(
         reason: Int,
     ) {
         queueWindows.value = player.getQueueWindows()
-        queueTitle.value = service.queueTitle
+        queueTitle.value = service.queueManager.queueTitle
         currentMediaItemIndex.value = player.currentMediaItemIndex
         currentWindowIndex.value = player.getCurrentQueueIndex()
         updateCanSkipPreviousAndNext()

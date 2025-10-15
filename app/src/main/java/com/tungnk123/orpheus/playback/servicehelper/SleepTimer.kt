@@ -1,4 +1,4 @@
-package com.tungnk123.orpheus.playback
+package com.tungnk123.orpheus.playback.servicehelper
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,12 +31,11 @@ class SleepTimer(
         }
         else {
             triggerTime = System.currentTimeMillis() + minute.minutes.inWholeMilliseconds
-            sleepTimerJob =
-                scope.launch {
-                    delay(minute.minutes)
-                    player.pause()
-                    triggerTime = -1L
-                }
+            sleepTimerJob = scope.launch {
+                delay(minute.minutes)
+                player.pause()
+                triggerTime = -1L
+            }
         }
     }
 
